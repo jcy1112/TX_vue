@@ -1,15 +1,14 @@
 <template>
   <div>
-    <div style="margin: 10px 0">
-      <el-input style="width: 200px" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="name"></el-input>
-<!--      <el-input style="width: 200px" placeholder="请输入" suffix-icon="el-icon-message" class="ml-5" v-model="email"></el-input>-->
-<!--      <el-input style="width: 200px" placeholder="请输入" suffix-icon="el-icon-position" class="ml-5" v-model="address"></el-input>-->
-      <el-button class="ml-5" type="primary" @click="load">搜索</el-button>
-      <el-button type="warning" @click="reset">重置</el-button>
+    <div class="margin">
+      <el-input class="text" size="small" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="name"></el-input>
+      <el-button class="ml-5" size="small" type="primary" @click="load">搜索</el-button>
+      <el-button type="warning" size="small" @click="reset">重置</el-button>
     </div>
 
-    <div style="margin: 10px 0">
-      <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
+    <div class="margin">
+      <el-button type="primary" size="small" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i>
+      </el-button>
       <el-popconfirm
           class="ml-5"
           confirm-button-text='确定'
@@ -19,32 +18,38 @@
           title="您确定批量删除这些数据吗？"
           @confirm="delBatch"
       >
-        <el-button type="danger" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
+        <el-button type="danger" size="small" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
       </el-popconfirm>
-       <el-upload action="http://localhost:9090/goods/import" :show-file-list="false" accept="xlsx" :on-success="handleExcelImportSuccess" style="display: inline-block">
-        <el-button type="primary" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
+      <el-upload :action="'http://' + serverIp + ':9090/goods/import'" :show-file-list="false" accept="xlsx"
+                 :on-success="handleExcelImportSuccess" style="display: inline-block">
+        <el-button type="primary" size="small" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
       </el-upload>
-      <el-button type="primary" @click="exp" class="ml-5">导出 <i class="el-icon-top"></i></el-button>
+      <el-button type="primary" size="small" @click="exp" class="ml-5">导出 <i class="el-icon-top"></i></el-button>
     </div>
 
-    <el-table :data="tableData" border stripe :header-cell-class-name="'headerBg'"  @selection-change="handleSelectionChange">
+    <el-table :data="tableData" border stripe :header-cell-class-name="'headerBg'"
+              @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="id" label="ID" width="80" sortable></el-table-column>
       <el-table-column prop="name" label="名称"></el-table-column>
       <el-table-column prop="price" label="价格"></el-table-column>
       <el-table-column prop="nums" label="库存"></el-table-column>
-      <el-table-column label="图片"><template slot-scope="scope"><el-image style="width: 100px; height: 100px" :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image></template></el-table-column>
+      <el-table-column label="图片">
+        <template slot-scope="scope">
+          <el-image class="img" :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image>
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="上架状态">
         <template v-slot="scope">
           <el-switch v-model="scope.row.status" active-color="lightgreen" @change="changeStatus(scope.row)"></el-switch>
         </template>
       </el-table-column>
-<!--      <el-table-column prop="descpription" label="描述"></el-table-column>-->
 
 
-      <el-table-column label="操作"  width="180" align="center">
+      <el-table-column label="操作" width="180" align="center">
         <template slot-scope="scope">
-          <el-button type="success" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
+          <el-button type="success" size="small" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i>
+          </el-button>
           <el-popconfirm
               class="ml-5"
               confirm-button-text='确定'
@@ -54,13 +59,13 @@
               title="您确定删除吗？"
               @confirm="del(scope.row.id)"
           >
-            <el-button type="danger" slot="reference">删除 <i class="el-icon-remove-outline"></i></el-button>
+            <el-button type="danger" size="small" slot="reference">删除 <i class="el-icon-remove-outline"></i></el-button>
 
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
-    <div style="padding: 10px 0">
+    <div class="page">
       <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -73,7 +78,7 @@
     </div>
 
     <el-dialog title="信息" :visible.sync="dialogFormVisible" width="40%" :close-on-click-modal="false">
-      <el-form label-width="140px" size="small" style="width: 85%;" :model="form" :rules="rules" ref="ruleForm">
+      <el-form label-width="140px" size="small" class="form" :model="form" :rules="rules" ref="ruleForm">
         <el-form-item prop="name" label="名称">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
@@ -81,7 +86,7 @@
           <el-input v-model="form.price" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="img" label="图片">
-          <el-upload action="http://localhost:9090/file/upload" ref="img" :on-success="handleImgUploadSuccess">
+          <el-upload action="http://localhost:9090/file/ossupload" ref="img" :on-success="handleImgUploadSuccess">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
@@ -105,10 +110,13 @@
 </template>
 
 <script>
+import {serverIp} from "../../public/config";
+
 export default {
   name: "Goods",
   data() {
     return {
+      serverIp: serverIp,
       tableData: [],
       total: 0,
       pageNum: 1,
@@ -120,16 +128,16 @@ export default {
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
       rules: {
         name: [
-          { required: true, message: '请输入名称', trigger: 'blur'}
+          {required: true, message: '请输入名称', trigger: 'blur'}
         ],
       }
     }
   },
-  created() {
+  mounted() {
     this.load()
   },
   methods: {
-    changeStatus(row) {
+    changeStatus(row) {    //修改上架状态
       this.form = JSON.parse(JSON.stringify(row))
       this.request.post("/goods", this.form).then(res => {
         if (res.code === '200') {
@@ -152,46 +160,46 @@ export default {
         this.total = res.data.total
       })
     },
-    save() {
-        this.$refs['ruleForm'].validate((valid) => {
-          if (valid) {
-            this.request.post("/goods", this.form).then(res => {
-              if (res.code === '200') {
-                this.$message.success("保存成功")
-                this.dialogFormVisible = false
-                this.load()
-              } else {
-                this.$message.error(res.msg)
-              }
-            })
-          }
-        })
+    save() {   //新增或修改
+      this.$refs['ruleForm'].validate((valid) => {
+        if (valid) {
+          this.request.post("/goods", this.form).then(res => {
+            if (res.code === '200') {
+              this.$message.success("保存成功")
+              this.dialogFormVisible = false
+              this.load()
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        }
+      })
     },
-    handleAdd() {
+    handleAdd() {   //增
       this.dialogFormVisible = true
       this.form = {}
       this.$nextTick(() => {
-        if(this.$refs.img) {
-           this.$refs.img.clearFiles();
-         }
-         if(this.$refs.file) {
+        if (this.$refs.img) {
+          this.$refs.img.clearFiles();
+        }
+        if (this.$refs.file) {
           this.$refs.file.clearFiles();
-         }
+        }
       })
     },
-    handleEdit(row) {
+    handleEdit(row) {  //改
       this.form = JSON.parse(JSON.stringify(row))
       this.dialogFormVisible = true
-       this.$nextTick(() => {
-         if(this.$refs.img) {
-           this.$refs.img.clearFiles();
-         }
-         if(this.$refs.file) {
+      this.$nextTick(() => {
+        if (this.$refs.img) {
+          this.$refs.img.clearFiles();
+        }
+        if (this.$refs.file) {
           this.$refs.file.clearFiles();
-         }
-       })
+        }
+      })
     },
-    del(id) {
+    del(id) {    //删除
       this.request.delete("/goods/" + id).then(res => {
         if (res.code === '200') {
           this.$message.success("删除成功")
@@ -201,11 +209,11 @@ export default {
         }
       })
     },
-    handleSelectionChange(val) {
+    handleSelectionChange(val) {    //多选框
       console.log(val)
       this.multipleSelection = val
     },
-    delBatch() {
+    delBatch() {    //批量删除
       if (!this.multipleSelection.length) {
         this.$message.error("请选择需要删除的数据")
         return
@@ -220,10 +228,12 @@ export default {
         }
       })
     },
-    reset() {
+    reset() {    //重置
       this.name = ""
       this.load()
     },
+
+    //分页相关
     handleSizeChange(pageSize) {
       console.log(pageSize)
       this.pageSize = pageSize
@@ -234,19 +244,14 @@ export default {
       this.pageNum = pageNum
       this.load()
     },
-    handleFileUploadSuccess(res) {
-      this.form.file = res
-    },
+    //图片上传
     handleImgUploadSuccess(res) {
       this.form.img = res
     },
-    download(url) {
-      window.open(url)
-    },
-    exp() {
+    exp() {   //导出
       window.open("http://localhost:9090/goods/export")
     },
-    handleExcelImportSuccess() {
+    handleExcelImportSuccess() {   //导入
       this.$message.success("导入成功")
       this.load()
     }
@@ -255,8 +260,29 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+.margin {
+  margin: 10px 0;
+}
+
+.page {
+  padding: 10px 0;
+}
+
+.text {
+  width: 200px;
+}
+
+.img {
+  width: 100px;
+  height: 100px;
+}
+
+.form {
+  width: 85%;
+}
+
 .headerBg {
-  background: #eee!important;
+  background: #eee !important;
 }
 </style>

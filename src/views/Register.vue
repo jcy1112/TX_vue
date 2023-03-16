@@ -1,18 +1,18 @@
 <template>
   <div class="wrapper">
-    <div style="margin: 100px auto; background-color: #fff; width: 350px; height: 400px; padding: 20px; border-radius: 10px">
-      <div style="margin: 20px 0; text-align: center; font-size: 24px"><b>注 册</b></div>
+    <div class="form">
+      <div class="register"><b>注 册</b></div>
       <el-form :model="user" :rules="rules" ref="userForm">
         <el-form-item prop="username">
-          <el-input placeholder="请输入账号" size="medium" style="margin: 5px 0" prefix-icon="el-icon-user" v-model="user.username"></el-input>
+          <el-input placeholder="请输入账号" size="medium" class="text" prefix-icon="el-icon-user" v-model="user.username"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input placeholder="请输入密码" size="medium" style="margin: 5px 0" prefix-icon="el-icon-lock" show-password v-model="user.password"></el-input>
+          <el-input placeholder="请输入密码" size="medium" class="text" prefix-icon="el-icon-lock" show-password v-model="user.password"></el-input>
         </el-form-item>
         <el-form-item prop="confirmPassword">
-          <el-input placeholder="请确认密码" size="medium" style="margin: 5px 0" prefix-icon="el-icon-lock" show-password v-model="user.confirmPassword"></el-input>
+          <el-input placeholder="请确认密码" size="medium" class="text" prefix-icon="el-icon-lock" show-password v-model="user.confirmPassword"></el-input>
         </el-form-item>
-        <el-form-item style="margin: 5px 0; text-align: right">
+        <el-form-item class="bottom">
           <el-button type="primary" size="small"  autocomplete="off" @click="login">注册</el-button>
           <el-button type="warning" size="small"  autocomplete="off" @click="$router.push('/login')">返回登录</el-button>
         </el-form-item>
@@ -65,10 +65,31 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .wrapper {
   height: 100vh;
   background-image: linear-gradient(to bottom right, #3F5EFB, #FC466B);
   overflow: hidden;
 }
+.form{
+  margin: 100px auto;
+  background-color: #fff;
+  width: 350px;
+  height: 400px;
+  padding: 20px;
+  border-radius: 10px;
+}
+.register{
+  margin: 20px 0;
+  text-align: center;
+  font-size: 24px;
+}
+.text{
+  margin: 5px 0;
+}
+.bottom{
+  margin: 5px 0;
+  text-align: right;
+}
+
 </style>

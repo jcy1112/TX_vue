@@ -1,12 +1,12 @@
 <template>
-  <el-container style="min-height: 100vh">
+  <el-container class="height">
 
-    <el-aside :width="sideWidth + 'px'" style="box-shadow: 2px 0 6px rgb(0 21 41);">
+    <el-aside :width="sideWidth + 'px'" class="shadow">
       <Aside :isCollapse="isCollapse" :logoTextShow="logoTextShow" />
     </el-aside>
 
     <el-container>
-      <el-header style="border-bottom: 1px solid #ccc;">
+      <el-header class="fold">
         <Header :collapseBtnClass="collapseBtnClass" @asideCollapse="collapse" :user="user" />
       </el-header>
 
@@ -39,7 +39,7 @@ export default {
     Aside,
     Header
   },
-  created() {
+  mounted() {
     // 从后台获取最新的User数据
     this.getUser()
   },
@@ -70,3 +70,15 @@ export default {
 }
 </script>
 
+<style scoped>
+.height{
+  min-height: 100vh;
+}
+.shadow{
+  box-shadow: 2px 0 6px rgb(0 21 41);
+}
+.fold{
+  border-bottom: 1px solid #ccc;
+}
+
+</style>

@@ -7,18 +7,20 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
     state: {
-        currentPathName: ''
+        currentPathName: '',
+        user: {}
     },
     mutations: {
         setPath (state) {
             state.currentPathName = localStorage.getItem("currentPathName")
         },
+        saveUserInfo (state,data) {
+            state.user = data;
+        },
         logout() {
             // 清空缓存
             localStorage.removeItem("user")
-            localStorage.removeItem("menus")
             router.push("/login")
-
             // 重置路由
             resetRouter()
         }

@@ -1,10 +1,10 @@
 <template>
-  <el-card style="width: 500px;">
+  <el-card class="card">
     <el-form label-width="80px" size="small">
 
       <el-upload
           class="avatar-uploader"
-          action="http://localhost:9090/file/upload"
+          :action="'http://' + serverIp + ':9090/file/ossupload'"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
       >
@@ -28,7 +28,7 @@
         <el-input v-model="form.address" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="save">确 定</el-button>
+        <el-button type="primary" size="small" @click="save">确 定</el-button>
 
       </el-form-item>
     </el-form>
@@ -36,15 +36,19 @@
 </template>
 
 <script>
+import {serverIp} from "../../public/config";
+
+
 export default {
   name: "Person",
   data() {
     return {
+      serverIp: serverIp,
       form: {},
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     }
   },
-  created() {
+  mounted() {
     this.getUser().then(res => {
       console.log(res)
       this.form = res
@@ -54,7 +58,7 @@ export default {
     async getUser() {
       return (await this.request.get("/user/username/" + this.user.username)).data
     },
-    save() {
+    save() {   //修改用户信息
       this.request.post("/user", this.form).then(res => {
         if (res.code === '200') {
           this.$message.success("保存成功")
@@ -82,7 +86,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .avatar-uploader {
   text-align: center;
   padding-bottom: 10px;
@@ -109,5 +113,8 @@ export default {
   width: 138px;
   height: 138px;
   display: block;
+}
+.card{
+  width: 500px;
 }
 </style>

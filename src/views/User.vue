@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div style="margin: 10px 0">
-      <el-input style="width: 200px" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="username"></el-input>
-      <el-input style="width: 200px" placeholder="请输入邮箱" suffix-icon="el-icon-message" class="ml-5" v-model="email"></el-input>
-      <el-input style="width: 200px" placeholder="请输入地址" suffix-icon="el-icon-position" class="ml-5" v-model="address"></el-input>
-      <el-button class="ml-5" type="primary" @click="load">搜索</el-button>
-      <el-button type="warning" @click="reset">重置</el-button>
+    <div class="margin">
+      <el-input size="small" class="text" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="username"></el-input>
+      <el-input size="small" placeholder="请输入邮箱" suffix-icon="el-icon-message" class="ml-5 text" v-model="email"></el-input>
+      <el-input size="small" placeholder="请输入地址" suffix-icon="el-icon-position" class="ml-5 text" v-model="address"></el-input>
+      <el-button class="ml-5" size="small" type="primary" @click="load">搜索</el-button>
+      <el-button type="warning" size="small" @click="reset">重置</el-button>
     </div>
 
-    <div style="margin: 10px 0">
-      <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
+    <div class="margin">
+      <el-button type="primary" size="small"  @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
       <el-popconfirm
           class="ml-5"
           confirm-button-text='确定'
@@ -19,13 +19,13 @@
           title="您确定批量删除这些数据吗？"
           @confirm="delBatch"
       >
-        <el-button type="danger" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
+        <el-button type="danger" size="small" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
       </el-popconfirm>
 
-      <el-upload action="http://localhost:9090/user/import" :show-file-list="false" accept="xlsx" :on-success="handleExcelImportSuccess" style="display: inline-block">
-        <el-button type="primary" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
+      <el-upload :action="'http://' + serverIp + ':9090/user/import'" :show-file-list="false" accept="xlsx" :on-success="handleExcelImportSuccess" style="display: inline-block">
+        <el-button type="primary" size="small" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
       </el-upload>
-      <el-button type="primary" @click="exp" class="ml-5">导出 <i class="el-icon-top"></i></el-button>
+      <el-button type="primary" @click="exp" size="small" class="ml-5">导出 <i class="el-icon-top"></i></el-button>
     </div>
 
     <el-table :data="tableData" border stripe :header-cell-class-name="'headerBg'"  @selection-change="handleSelectionChange">
@@ -38,7 +38,7 @@
       <el-table-column prop="address" label="地址"></el-table-column>
       <el-table-column label="操作"  width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="success" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
+          <el-button type="success" size="small" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
           <el-popconfirm
               class="ml-5"
               confirm-button-text='确定'
@@ -48,12 +48,12 @@
               title="您确定删除吗？"
               @confirm="del(scope.row.id)"
           >
-            <el-button type="danger" slot="reference">删除 <i class="el-icon-remove-outline"></i></el-button>
+            <el-button type="danger" size="small" slot="reference">删除 <i class="el-icon-remove-outline"></i></el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
-    <div style="padding: 10px 0">
+    <div class="page">
       <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -92,10 +92,13 @@
 </template>
 
 <script>
+import {serverIp} from "../../public/config";
+
 export default {
   name: "User",
   data() {
     return {
+      serverIp: serverIp,
       tableData: [],
       total: 0,
       pageNum: 1,
@@ -108,7 +111,7 @@ export default {
       multipleSelection: []
     }
   },
-  created() {
+  mounted() {
     this.load()
   },
   methods: {
@@ -127,7 +130,7 @@ export default {
         this.total = res.data.total
       })
     },
-    save() {
+    save() {    //新增或修改
       this.request.post("/user", this.form).then(res => {
         if (res.code==='200') {
           this.dialogFormVisible = false
@@ -146,7 +149,7 @@ export default {
       this.form = row
       this.dialogFormVisible = true
     },
-    del(id) {
+    del(id) {   //删除
       this.request.delete("/user/" + id).then(res => {
         if (res.code==='200') {
           this.$message.success("删除成功")
@@ -156,11 +159,11 @@ export default {
         }
       })
     },
-    handleSelectionChange(val) {
+    handleSelectionChange(val) {    //多选框
       console.log(val)
       this.multipleSelection = val
     },
-    delBatch() {
+    delBatch() {    //批量删除
       let ids = this.multipleSelection.map(v => v.id)  // [{}, {}, {}] => [1,2,3]
       this.request.post("/user/del/batch", ids).then(res => {
         if (res.code==='200') {
@@ -171,12 +174,13 @@ export default {
         }
       })
     },
-    reset() {
+    reset() {    //重置页面
       this.username = ""
       this.email = ""
       this.address = ""
       this.load()
     },
+    //分页相关
     handleSizeChange(pageSize) {
       console.log(pageSize)
       this.pageSize = pageSize
@@ -187,7 +191,8 @@ export default {
       this.pageNum = pageNum
       this.load()
     },
-    exp() {
+
+    exp() {  //导出
       window.open("http://localhost:9090/user/export")
     },
     handleExcelImportSuccess() {
@@ -199,7 +204,19 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
+.margin{
+  margin: 10px 0;
+}
+
+.text{
+  width: 200px;
+}
+
+.page{
+  padding: 10px 0;
+}
+
 .headerBg {
   background: #eee!important;
 }

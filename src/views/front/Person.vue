@@ -1,9 +1,9 @@
 <template>
-  <el-card style="width: 500px;">
+  <el-card class="card">
     <el-form label-width="80px" size="small">
       <el-upload
           class="avatar-uploader"
-          :action="'http://localhost:9090/file/upload'"
+          :action="'http://' + serverIp +':9090/file/ossupload'"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
       >
@@ -34,16 +34,18 @@
 </template>
 
 <script>
+import {serverIp} from "../../../public/config";
 
 export default {
   name: "Person",
   data() {
     return {
+      serverIp: serverIp,
       form: {},
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
     }
   },
-  created() {
+  mounted() {
     this.getUser().then(res => {
       console.log(res)
       this.form = res
@@ -53,7 +55,7 @@ export default {
     async getUser() {
       return (await this.request.get("/user/username/" + this.user.username)).data
     },
-    save() {
+    save() {   //修改
       this.request.post("/user", this.form).then(res => {
         if (res.code === '200') {
           this.$message.success("保存成功")
@@ -79,7 +81,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.card{
+  width: 500px;
+}
 .avatar-uploader {
   text-align: center;
   padding-bottom: 10px;

@@ -1,5 +1,5 @@
 <template>
-  <el-card style="width: 500px;">
+  <el-card class="card">
     <el-form label-width="120px" size="small" :model="form" :rules="rules" ref="pass">
 
       <el-form-item label="原密码" prop="password">
@@ -12,7 +12,7 @@
         <el-input v-model="form.confirmPassword" autocomplete="off" show-password></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="save">确 定</el-button>
+        <el-button type="primary" size="small" @click="save">确 定</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -41,13 +41,13 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     this.form.username = this.user.username
   },
   methods: {
-    save() {
+    save() {  //修改密码
       this.$refs.pass.validate((valid) => {
-        if (valid) {
+        if (valid) {//表单验证
           if (this.form.newPassword !== this.form.confirmPassword) {
             this.$message.error("2次输入的新密码不相同")
             return false
@@ -67,32 +67,8 @@ export default {
 }
 </script>
 
-<style>
-.avatar-uploader {
-  text-align: center;
-  padding-bottom: 10px;
-}
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409EFF;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 138px;
-  height: 138px;
-  line-height: 138px;
-  text-align: center;
-}
-.avatar {
-  width: 138px;
-  height: 138px;
-  display: block;
+<style scoped>
+.card{
+  width: 500px;
 }
 </style>

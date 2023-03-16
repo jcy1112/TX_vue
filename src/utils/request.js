@@ -1,7 +1,10 @@
 import axios from 'axios'
+import router from "@/router";
+import {serverIp} from "../../public/config";
+import store from "@/store";
 
 const request = axios.create({
-    baseURL: 'http://localhost:9090',
+    baseURL: `http://${serverIp}:9090`,
     timeout: 5000
 })
 
@@ -13,6 +16,7 @@ request.interceptors.request.use(config => {
     let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
     if (user) {
         config.headers['token'] = user.token;  // 设置请求头
+        console.log(config.headers['token']);
     }
     return config
 }, error => {
@@ -32,7 +36,7 @@ request.interceptors.response.use(
         if (typeof res === 'string') {
             res = res ? JSON.parse(res) : res
         }
-        // 当权限验证不通过的时候给出提示
+        //当权限验证不通过的时候给出提示
         if (res.code === '401') {
             // ElementUI.Message({
             //     message: res.msg,

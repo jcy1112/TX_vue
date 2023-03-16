@@ -1,6 +1,6 @@
 <template>
-  <div style="color: #666;font-size: 14px;">
-    <div style="padding-bottom: 20px">
+  <div class="font">
+    <div class="pad">
       <b>您好！{{ user.nickname }}</b>
     </div>
     <el-card>
@@ -17,8 +17,19 @@ export default {
   name: "Home",
   data() {
     return {
-      user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+      //user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
+      user: this.$store.state.user ? JSON.parse(this.$store.state.user) : {},
     }
   }
 }
 </script>
+
+<style scoped>
+.font{
+  color: #666;
+  font-size: 14px;
+}
+.pad{
+  padding-bottom: 20px;
+}
+</style>
