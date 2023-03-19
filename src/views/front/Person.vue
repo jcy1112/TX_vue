@@ -1,5 +1,6 @@
 <template>
-  <el-card class="card">
+  <el-card class="card" style="width: 80%;background-color: #fff;">
+    <div class="cardbox_mid-title" style="padding: 20px;font-size: 25px;width:50%;margin: auto;text-align: center;">个人信息修改</div>
     <el-form label-width="80px" size="small">
       <el-upload
           class="avatar-uploader"

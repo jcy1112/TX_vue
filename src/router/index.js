@@ -11,6 +11,8 @@ const Orders = () => import('../views/Orders.vue');
 const Person = () => import('../views/Person.vue');
 const Password = () => import('../views/Password.vue');
 const Lun = () => import('../views/Lun.vue');
+const OnShelves =() => import('../views/OnShelves.vue');
+const UpShelves =() => import('../views/UpShelves.vue');
 
 //前台
 const Front = () => import('../views/front/Front.vue');
@@ -42,6 +44,8 @@ const routes = [
             {path: 'person', name: '个人信息', component: Person},
             {path: 'password', name: '修改密码', component: Password},
             {path: 'lun', name: '轮播图管理', component: Lun},
+            {path: 'onshelves', name: '已上架商品', component: OnShelves},
+            {path: 'upshelves', name: '已下架商品', component: UpShelves},
         ]
     },
     {
