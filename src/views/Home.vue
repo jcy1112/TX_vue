@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
-      // user: this.$store.state.user ? JSON.parse(this.$store.state.user) : {},
+      //user: this.$store.state.user ? JSON.parse(this.$store.state.user) : {},
     }
   }
 }
