@@ -27,112 +27,107 @@ const Register = () => import('../views/Register.vue');
 const NO = () => import('../views/404.vue');
 
 
-
-
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    component: Manage,
-    redirect: "/front/home",
-    children: [
-      { path: 'home', name: '首页', component: Home},
-      { path: 'user', name: '用户管理', component: User},
-      { path: 'goods', name: '商品管理', component: Goods},
-      { path: 'orders', name: '订单管理', component: Orders},
-      { path: 'person', name: '个人信息', component: Person},
-      { path: 'password', name: '修改密码', component: Password},
-      { path: 'lun', name: '轮播图管理', component: Lun},
-    ]
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: About
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
-  {
-    path: '/404',
-    name: '404',
-    component: NO
-  },
-  {
-    path: '/front',
-    name: 'Front',
-    component: Front,
-    children: [
-      {
-        path: 'home',
-        name: 'FrontHome',
-        component: FrontHome
-      },
-      {
-        path: 'password',
-        name: 'Password',
-        component: FrontPassword
-      },
-      {
-        path: 'person',
-        name: 'Person',
-        component: FrontPerson
-      },
-      {
-        path: 'detail',
-        name: 'Detail',
-        component: FrontDetail
-      },
-      {
-        path: 'cart',
-        name: 'Cart',
-        component: FrontCart
-      },
-      {
-        path: 'orders',
-        name: 'Orders',
-        component: FrontOrders
-      },
-    ]
-  }
+    {
+        path: '/',
+        component: Manage,
+        redirect: "/front/home",
+        children: [
+            {path: 'home', name: '首页', component: Home},
+            {path: 'user', name: '用户管理', component: User},
+            {path: 'goods', name: '商品管理', component: Goods},
+            {path: 'orders', name: '订单管理', component: Orders},
+            {path: 'person', name: '个人信息', component: Person},
+            {path: 'password', name: '修改密码', component: Password},
+            {path: 'lun', name: '轮播图管理', component: Lun},
+        ]
+    },
+    {
+        path: '/about',
+        name: 'About',
+        component: About
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: Register
+    },
+    {
+        path: '/404',
+        name: '404',
+        component: NO
+    },
+    {
+        path: '/front',
+        name: 'Front',
+        component: Front,
+        children: [
+            {
+                path: 'home',
+                name: 'FrontHome',
+                component: FrontHome
+            },
+            {
+                path: 'password',
+                name: 'Password',
+                component: FrontPassword
+            },
+            {
+                path: 'person',
+                name: 'Person',
+                component: FrontPerson
+            },
+            {
+                path: 'detail',
+                name: 'Detail',
+                component: FrontDetail
+            },
+            {
+                path: 'cart',
+                name: 'Cart',
+                component: FrontCart
+            },
+            {
+                path: 'orders',
+                name: 'Orders',
+                component: FrontOrders
+            },
+        ]
+    }
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 })
 
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  let user = localStorage.getItem('user')       //获取点击登录按钮时所设置的 localStorage
+    let user = localStorage.getItem('user')       //获取点击登录按钮时所设置的 localStorage
 
-  if(to.path === '/home'){        //如果想要跳转home或页面必须判断有没有localStorage
-    if(user){              //如果有localStorage
-      next();				//跳转
-    }else {
-      alert('您还没有登录，请先登录账户');   //没有就先登录
-      next('/login')							//还在登录页
+    if (to.path === '/home') {        //如果想要跳转home或页面必须判断有没有localStorage
+        if (user) {              //如果有localStorage
+            next();				//跳转
+        } else {
+            alert('您还没有登录，请先登录账户');   //没有就先登录
+            next('/login')							//还在登录页
+        }
     }
-  }
-  else{
-    next();
-  }
-  if(to.path === '/login'){				//如果跳转到了登录页面必须清空localStorage，否则在地址栏输入路径还是会跳转
-    localStorage.clear();				//清空localStorage
-  }
-  localStorage.setItem("currentPathName", to.name)  // 设置当前的路由名称，为了在Header组件中去使用
-  store.commit("setPath")  // 触发store的数据更新
-  next()  // 放行路由
+    if (to.path === '/login') {				//如果跳转到了登录页面必须清空localStorage，否则在地址栏输入路径还是会跳转
+        localStorage.clear();				//清空localStorage
+    }
+    localStorage.setItem("currentPathName", to.name)  // 设置当前的路由名称，为了在Header组件中去使用
+    store.commit("setPath")  // 触发store的数据更新
+    next()  // 放行路由
 })
 
 export default router

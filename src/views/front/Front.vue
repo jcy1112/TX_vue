@@ -10,15 +10,19 @@
       </div>
       <div class="h3">
         <el-menu :default-active="$route.path" class="el-menu-demo menu" mode="horizontal" router >
-          <el-menu-item index="/front/home">首页</el-menu-item>
-          <el-menu-item index="/front/cart">我的购物车</el-menu-item>
-          <el-menu-item index="/front/orders">我的订单</el-menu-item>
+          <el-menu-item index="/front/home"><i class="el-icon-s-home" style="color: #16996d;;"></i>首页</el-menu-item>
+          <el-menu-item index="/front/cart"><i class="el-icon-shopping-cart-2" style="color: #16996d;;"></i>购物车</el-menu-item>
+          <el-menu-item index="/front/orders"><i class="el-icon-s-order" style="color: #16996d;;"></i>我的订单</el-menu-item>
+          <el-menu-item index=""><i class="el-icon-truck" style="color: #16996d;;"></i>待发货</el-menu-item>
+          <el-menu-item index=""><i class="el-icon-edit" style="color: #16996d;;"></i>待收货</el-menu-item>
+          <el-menu-item index=""><i class="el-icon-s-comment" style="color: #16996d;;"></i>待评价</el-menu-item>
+          <el-menu-item index=""><i class="el-icon-star-on" style="color:#16996d;;"></i>我的收藏</el-menu-item>
         </el-menu>
       </div>
       <div class="h4">
         <div v-if="!user.username" class="h5">
-          <el-button @click="$router.push('/login')">登录</el-button>
-          <el-button @click="$router.push('/register')">注册</el-button>
+          <el-button type="info" @click="$router.push('/login')">登录</el-button>
+          <el-button type="info" @click="$router.push('/register')">注册</el-button>
         </div>
         <div v-else>
           <el-dropdown class="dropdown">
@@ -71,7 +75,6 @@ export default {
 
 <style scoped>
 .background{
-  background-color:darkgray;
   min-height: 100vh;
 }
 .header{
@@ -79,7 +82,6 @@ export default {
   height: 60px;
   line-height: 60px;
   border-bottom: 1px solid #eee;
-  background: white;
 }
 .h1{
   width: 350px;

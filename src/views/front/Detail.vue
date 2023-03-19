@@ -14,7 +14,9 @@
 
             <div>
               <el-input-number :value="1" size="medium" class="num" v-model="buyNum" :min="1"></el-input-number>
-              <el-button class="cart" @click="addCart">加入购物车</el-button>
+              <el-button type="primary" size="medium" plain style="width:120px;" @click="addCart">加入购物车</el-button>
+              <el-button type="success" size="medium" plain style="margin-left: 10px;width:120px;" @click="payshopping()">立即购买</el-button>
+              <el-button type="danger" size="medium" plain style="margin-left: 10px;width:80px;" @click="addCollection()">收藏</el-button>
             </div>
 
             <div class="tips">
@@ -69,7 +71,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .header{
   display: flex;

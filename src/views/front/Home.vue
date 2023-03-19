@@ -1,6 +1,17 @@
 <template>
-  <div>
+  <div style="width: 100%">
     <div class="margin">
+      <el-dropdown>
+        <el-button type="primary" >分类<i class="el-icon-arrow-down el-icon--right"></i>
+        </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>名著</el-dropdown-item>
+          <el-dropdown-item>历史</el-dropdown-item>
+          <el-dropdown-item>传记</el-dropdown-item>
+          <el-dropdown-item>教科</el-dropdown-item>
+          <el-dropdown-item>小说</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <el-input class="text" placeholder="请输入名称" suffix-icon="el-icon-search" v-model="name"></el-input>
       <el-button class="ml-5" type="primary" @click="load">搜索</el-button>
       <el-button type="warning" @click="reset">重置</el-button>
@@ -19,7 +30,7 @@
           <div class="goods" @click="$router.push('/front/detail?id=' + item.id)">
             <img :src="item.img" alt="" class="itemImg">
             <div class="line1">{{ item.name }}</div>
-            <div class="line2">￥{{ item.price }} / {{ item.nums }}</div>
+            <div class="line2">￥{{ item.price }}</div>
           </div>
         </el-col>
       </el-row>
@@ -47,9 +58,10 @@ export default {
       lun: [],
       goods: [],
       pageNum: 1,
-      pageSize: 8,
+      pageSize: 20,
       total: 0,
-      name:""
+      name: "",
+      item: ""
     }
   },
   mounted() {
@@ -60,7 +72,6 @@ export default {
       this.request.get("/lun").then(res => {  //轮播图
         this.lun = res.data
       })
-
       this.request.get("/goods/front", {       //商品列表
         params: {
           pageNum: this.pageNum,
@@ -88,45 +99,56 @@ export default {
   }
 }
 </script>
-
 <style scoped>
-.margin{
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+.margin {
   margin: 10px 0;
 }
-.text{
-  width: 200px;
+.text {
+  width: 500px;
+  margin-left: 10px;
+
 }
-.img{
+
+.img {
   width: 100%;
   height: 500px;
   overflow: hidden;
   border-radius: 10px;
 }
-.page{
+
+.page {
   padding: 10px 0;
   background-color: white;
 }
-.list{
+
+.list {
   margin: 20px 0;
   font-size: 20px;
   color: orangered;
   border-bottom: 1px solid orangered;
   padding-bottom: 10px;
 }
-.bottom{
+
+.bottom {
   margin-bottom: 10px
 }
-.goods{
+
+.goods {
   background-color: white;
   padding: 10px;
   cursor: pointer;
 }
-.itemImg{
+
+.itemImg {
   width: 100%;
   height: 200px;
   overflow: hidden;
   border-radius: 10px;
 }
+
 .line1 {
   white-space: nowrap;
   overflow: hidden;
@@ -134,7 +156,8 @@ export default {
   color: #666;
   margin: 10px 0;
 }
-.line2{
+
+.line2 {
   margin: 10px 0;
   color: red;
   font-weight: bold;
