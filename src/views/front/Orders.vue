@@ -115,6 +115,13 @@ export default {
     this.load()
   },
   methods: {
+    //支付
+    pay(row){
+      this.request.get().then(res => {
+        //得到一个url，可以打开支付宝支付界面
+        window.open(res.data);
+      })
+    },
 
     //评价相关
     handleComment(row) {
