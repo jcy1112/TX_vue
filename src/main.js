@@ -2,8 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 // import ElementUI from 'element-ui';
-import './plungs/element'  //按需加载
-import 'element-ui/lib/theme-chalk/index.css';
+import './plugins/element.js'  //按需加载
+// import 'element-ui/lib/theme-chalk/index.css';
 import './assets/gloable.css'
 import request from "@/utils/request";
 import store from './store'
