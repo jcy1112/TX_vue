@@ -13,6 +13,11 @@ const Password = () => import('../views/Password.vue');
 const Lun = () => import('../views/Lun.vue');
 const OnShelves =() => import('../views/OnShelves.vue');
 const UpShelves =() => import('../views/UpShelves.vue');
+const CompletedOrder =() => import('../views/CompletedOrder.vue');
+const NoSend =() => import('../views/NoSend.vue');
+const NoReceived =() => import('../views/NoReceived.vue');
+const Unpaid =() => import('../views/Unpaid.vue');
+
 
 //前台
 const Front = () => import('../views/front/Front.vue');
@@ -46,6 +51,10 @@ const routes = [
             {path: 'lun', name: '轮播图管理', component: Lun},
             {path: 'onshelves', name: '已上架商品', component: OnShelves},
             {path: 'upshelves', name: '已下架商品', component: UpShelves},
+            {path: 'completedorder', name: '已完成订单', component: CompletedOrder},
+            {path: 'nosend', name: '待发货订单', component: NoSend},
+            {path: 'noreceived', name: '待收货订单', component: NoReceived},
+            {path: 'unpaid', name: '待收货订单', component: Unpaid},
         ]
     },
     {

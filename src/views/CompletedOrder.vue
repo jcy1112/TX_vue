@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="margin">
-      <el-input class="text" size="small" placeholder="请输入订单编号" suffix-icon="el-icon-search"
-                v-model="orderNo"></el-input>
+      <el-input class="text" size="small" placeholder="请输入订单编号" suffix-icon="el-icon-search" v-model="orderNo"></el-input>
       <div style="margin: 10px"></div>
       <el-button class="ml-5" size="small" type="primary" @click="load">搜索</el-button>
       <el-button type="warning" size="small" @click="reset">重置</el-button>
@@ -21,37 +20,23 @@
       </el-popconfirm>
     </div>
 
-    <el-table :data="tableData" size="small" border stripe :header-cell-class-name="'headerBg'"
-              @selection-change="handleSelectionChange">
+    <el-table :data="tableData" size="small" border stripe :header-cell-class-name="'headerBg'"  @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="id" label="ID" width="80" sortable></el-table-column>
       <el-table-column prop="orderno" label="订单编号"></el-table-column>
-      <el-table-column prop="total" label="总金额" width="100"></el-table-column>
+      <el-table-column prop="total" label="总金额" width="100" ></el-table-column>
       <el-table-column prop="userid" label="用户id" width="100"></el-table-column>
-      <el-table-column prop="status" label="状态" width="100">
-        <template v-slot="scope">
-          <el-tag type="info" v-if="scope.row.status === 0">已取消</el-tag>
-          <el-tag type="warning" v-if="scope.row.status === 1">待支付</el-tag>
-          <el-tag type="primary" v-if="scope.row.status === 2">待发货</el-tag>
-          <el-tag type="primary" v-if="scope.row.status === 3">待收货</el-tag>
-          <el-tag type="danger" v-if="scope.row.status === 4">待评价</el-tag>
-          <el-tag type="success" v-if="scope.row.status === 5">已完成</el-tag>
-        </template>
-      </el-table-column>
       <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column prop="payno" label="付款编号"></el-table-column>
       <el-table-column prop="address" label="收货地址"></el-table-column>
-
-      <el-table-column label="查看详情" width="200" align="center">
+      <el-table-column label="查看详情"  width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="success" size="small" @click="Det(scope.row.id)">查看订单详情 <i class="el-icon-edit"></i>
-          </el-button>
+          <el-button type="success" size="small" @click="Det(scope.row.id)">查看订单详情 <i class="el-icon-edit"></i></el-button>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="180" align="center">
+      <el-table-column label="操作"  width="180" align="center">
         <template slot-scope="scope">
-          <el-button type="success" size="small" @click="changeStatus(scope.row, 3)" v-if="scope.row.status === 2">发货</el-button>
           <el-popconfirm
               class="ml-5"
               confirm-button-text='确定'
@@ -111,7 +96,7 @@
 
 <script>
 export default {
-  name: "Orders",
+  name: "CompletedOrder",
   data() {
     return {
       tableData: [],
@@ -120,8 +105,8 @@ export default {
       pageNum: 1,
       pageSize: 10,
       orderNo: "",
-      status: null,
       form: {},
+      status: 5,
       dialogFormVisible: false,
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
     }
@@ -147,7 +132,7 @@ export default {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           orderNo: this.orderNo,
-          status: this.status
+          status:this.status
         }
       }).then(res => {
         this.tableData = res.data.records
@@ -189,7 +174,7 @@ export default {
         }
       })
     },
-    ret() {
+    ret(){
       this.load()
       this.dialogFormVisible = false
     },
@@ -214,19 +199,16 @@ export default {
 
 
 <style scoped>
-.margin {
+.margin{
   margin: 10px 0;
 }
-
-.page {
+.page{
   padding: 10px 0;
 }
-
-.itemTable {
+.itemTable{
   width: 100%;
 }
-
 .headerBg {
-  background: #eee !important;
+  background: #eee!important;
 }
 </style>

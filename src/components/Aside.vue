@@ -26,6 +26,7 @@
         <i class="el-icon-s-custom"></i>
         <span slot="title">用户管理</span>
       </el-menu-item>
+
       <el-menu-item index="/lun">
         <i class="el-icon-picture"></i>
         <span slot="title">轮播图管理</span>
@@ -50,12 +51,13 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/orders">全部订单</el-menu-item>
-          <el-menu-item index="1-2">已完成订单</el-menu-item>
-          <el-menu-item index="1-3">待发货订单</el-menu-item>
-          <el-menu-item index="1-4">待收货订单</el-menu-item>
-          <el-menu-item index="1-4">待付款订单</el-menu-item>
+          <el-menu-item index="/unpaid">待支付订单</el-menu-item>
+          <el-menu-item index="/nosend">待发货订单</el-menu-item>
+          <el-menu-item index="/noreceived">待收货订单</el-menu-item>
+          <el-menu-item index="/completedorder">已完成订单</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+
     </el-submenu>
   </el-menu>
 </template>

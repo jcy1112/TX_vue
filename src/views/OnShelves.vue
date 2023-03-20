@@ -41,7 +41,7 @@
 import {serverIp} from "../../public/config";
 
 export default {
-  name: "Goods",
+  name: "OnShelves",
   data() {
     return {
       serverIp: serverIp,

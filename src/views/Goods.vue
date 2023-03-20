@@ -86,12 +86,12 @@
           <el-input v-model="form.price" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="img" label="图片">
-          <el-upload action="http://localhost:9090/file/ossupload" ref="img" :on-success="handleImgUploadSuccess">
+          <el-upload :action="'http://' + serverIp + ':9090/user/import'" ref="img" :on-success="handleImgUploadSuccess">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item prop="descpription" label="描述">
-          <el-input v-model="form.descpription" autocomplete="off"></el-input>
+          <el-input type="textarea"  v-model="form.descpription" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="nums" label="库存">
           <el-input v-model="form.nums" autocomplete="off"></el-input>
