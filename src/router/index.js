@@ -27,6 +27,9 @@ const FrontPerson = () => import('../views/front/Person.vue');
 const FrontDetail = () => import('../views/front/Detail.vue');
 const FrontCart = () => import('../views/front/Cart.vue');
 const FrontOrders = () => import('../views/front/Orders.vue');
+const FrontNoSend =() => import('../views/front/NoSend.vue');
+const FrontNoReceived =() => import('../views/front/NoReceived.vue');
+const FrontNoComment =() => import('../views/front/NoComment.vue');
 
 const About = () => import('../views/About.vue');
 const Login = () => import('../views/Login.vue');
@@ -112,6 +115,27 @@ const routes = [
                 name: 'Orders',
                 component: FrontOrders
             },
+            {
+                path: 'orders',
+                name: 'Orders',
+                component: FrontOrders
+            },
+            {
+                path: 'noSend',
+                name: 'noSend',
+                component: FrontNoSend
+            },
+            {
+                path: 'noReceive',
+                name: 'noReceive',
+                component: FrontNoReceived
+            },
+            {
+                path: 'noComment',
+                name: 'noComment',
+                component: FrontNoComment
+            },
+
         ]
     }
 ]

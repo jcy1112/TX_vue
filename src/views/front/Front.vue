@@ -13,9 +13,9 @@
           <el-menu-item index="/front/home"><i class="el-icon-s-home" style="color: #16996d;;"></i>首页</el-menu-item>
           <el-menu-item index="/front/cart"><i class="el-icon-shopping-cart-2" style="color: #16996d;;"></i>购物车</el-menu-item>
           <el-menu-item index="/front/orders"><i class="el-icon-s-order" style="color: #16996d;;"></i>我的订单</el-menu-item>
-          <el-menu-item index=""><i class="el-icon-truck" style="color: #16996d;;"></i>待发货</el-menu-item>
-          <el-menu-item index=""><i class="el-icon-edit" style="color: #16996d;;"></i>待收货</el-menu-item>
-          <el-menu-item index=""><i class="el-icon-s-comment" style="color: #16996d;;"></i>待评价</el-menu-item>
+          <el-menu-item index="/front/noSend"><i class="el-icon-truck" style="color: #16996d;;"></i>待发货</el-menu-item>
+          <el-menu-item index="/front/noReceive"><i class="el-icon-edit" style="color: #16996d;;"></i>待收货</el-menu-item>
+            <el-menu-item index="/front/noComment"><i class="el-icon-s-comment" style="color: #16996d;;"></i>待评价</el-menu-item>
           <el-menu-item index=""><i class="el-icon-star-on" style="color:#16996d;;"></i>我的收藏</el-menu-item>
         </el-menu>
       </div>
