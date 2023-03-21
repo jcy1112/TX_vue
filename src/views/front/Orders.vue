@@ -118,7 +118,7 @@ export default {
   methods: {
     //支付
     pay(row){
-        //打开一个url，可以打开支付宝支付界面
+        //打开一个url，       可以打开支付宝支付界面
         const url = `http://localhost:9090/alipay/pay?subject=${row.id}&traceNo=${row.orderno}&totalAmount=${row.total}`;
         window.open(url);
     },
