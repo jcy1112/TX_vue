@@ -1,7 +1,6 @@
 <template>
   <el-card class="card">
     <el-form label-width="120px" size="small" :model="form" :rules="rules" ref="pass">
-
       <el-form-item label="原密码" prop="password">
         <el-input v-model="form.password" autocomplete="off" show-password></el-input>
       </el-form-item>

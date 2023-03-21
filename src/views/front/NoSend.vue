@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table :data="tableData" stripe size="medium">
-      <el-table-column prop="id" label="ID" width="80" sortable></el-table-column>
+      <!--      <el-table-column prop="id" label="ID" width="80" sortable></el-table-column>-->
       <el-table-column prop="orderno" label="订单编号" width="200"></el-table-column>
       <el-table-column prop="total" label="总金额"></el-table-column>
       <el-table-column prop="status" label="状态">
@@ -16,29 +16,10 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column prop="address" label="收货地址"></el-table-column>
-      <!--      <el-table-column prop="paymentno" label="付款编号"></el-table-column>-->
+      <el-table-column prop="alipayNo" label="付款编号"></el-table-column>
       <el-table-column label="详情">
         <template v-slot="scope">
           <el-button size="mini" @click="detail(scope.row.id)">查看详情</el-button>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作" width="180" align="center">
-        <template v-slot="scope">
-          <el-button type="success" @click="pay(scope.row)" v-if="scope.row.status === 1">付款</el-button>
-          <el-button type="warning" @click="changeStatus(scope.row, 4)" v-if="scope.row.status === 3">收货</el-button>
-          <el-popconfirm
-              v-if="scope.row.status === 1"
-              class="ml-5"
-              confirm-button-text='确定'
-              cancel-button-text='我再想想'
-              icon="el-icon-info"
-              icon-color="red"
-              title="您确定取消吗？"
-              @confirm="changeStatus(scope.row, 0)"
-          >
-            <el-button type="danger" slot="reference">取消</el-button>
-          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -65,25 +46,9 @@
             <el-image :src="scope.row.img" class="img"></el-image>
           </template>
         </el-table-column>
-        <el-table-column prop="img" label="评价" >
-          <template v-slot="scope">
-            <el-button @click="handleComment(scope.row)" type="primary">评价</el-button>
-          </template>
-        </el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">关 闭</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="评价内容" :visible.sync="dialogFormVisible1" width="30%" :close-on-click-modal="false">
-      <el-form>
-        <el-form-item>
-          <el-input v-model="comment" type="textarea"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="saveComment">保 存</el-button>
       </div>
     </el-dialog>
 
@@ -117,7 +82,7 @@ export default {
   },
   methods: {
     //支付
-    pay(row){
+    pay(row) {
       //打开一个url，       可以打开支付宝支付界面
       const url = `http://localhost:9090/alipay/pay?subject=${row.id}&traceNo=${row.orderno}&totalAmount=${row.total}`;
       window.open(url);
@@ -186,15 +151,17 @@ export default {
 
 
 <style scoped>
-.page{
+.page {
   padding: 10px 0;
   margin: 10px 0;
   background: white;
 }
-.img{
+
+.img {
   width: 100px;
   height: 100px;
 }
+
 .headerBg {
   background: #eee !important;
 }

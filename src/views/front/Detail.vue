@@ -9,7 +9,7 @@
           <el-form label-width="80px">
             <el-form-item label="商品名称">{{ goods.name }}</el-form-item>
             <el-form-item label="商品描述">{{ goods.descpription }}</el-form-item>
-            <el-form-item label="商品价格"><span class="color">{{ goods.price }}/{{ goods.unit }}</span></el-form-item>
+            <el-form-item label="商品价格"><span class="color">{{ goods.price }} ￥</span></el-form-item>
             <el-form-item label="商品库存"><span>{{ goods.nums }}</span></el-form-item>
 
             <div>
@@ -27,7 +27,9 @@
                 <el-button type="danger" slot="reference">直接购买</el-button>
               </el-popconfirm>
 
-              <el-button type="danger" size="medium" plain style="margin-left: 10px;width:80px;" @click="addCollection()">收藏</el-button>
+              <el-button type="danger" size="medium" plain style="margin-left: 10px;width:80px;"
+                         @click="addCollection">收藏
+              </el-button>
             </div>
 
             <div class="tips">
@@ -43,7 +45,9 @@
       <el-card>
         <div class="comment">商品评价</div>
         <div v-for="item in comments" :key="item.id" class="text1">
-          <div><el-image class="avatar" :src="item.avatar"></el-image><span class="user">{{ item.user }}</span>
+          <div>
+            <el-image class="avatar" :src="item.avatar"></el-image>
+            <span class="user">{{ item.user }}</span>
             <span class="text2">:{{ item.comment }}</span></div>
         </div>
       </el-card>
@@ -62,7 +66,9 @@ export default {
       goods: {},
       goodsId: goodsId,
       buyNum: 1,
-      comments: []
+      comments: [],
+      img: "",
+      goodsName: "",
     }
   },
   mounted() {
@@ -71,7 +77,7 @@ export default {
   },
   methods: {
     //支付
-    pay(){
+    pay() {
       //先下单
       this.request.post("/orders/buy", {
         id: this.goodsId,
@@ -93,73 +99,98 @@ export default {
     },
     //加入购物车
     addCart() {
-      this.request.post('/cart', { goodsId: this.goodsId, num: this.buyNum, userid:this.user.id }).then(res => {
+      this.request.post('/cart', {goodsId: this.goodsId, num: this.buyNum, userid: this.user.id}).then(res => {
         if (res.code === '200') {
           this.$message.success('加入购物车成功')
         } else {
           this.$message.error(res.msg)
         }
       })
-    }
+    },
+    //收藏
+    addCollection() {
+      this.request.post("/collection/" + this.goodsId).then(res => {
+        if (res.code === '200') {
+          this.$message.success('收藏成功')
+          this.load()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
   }
 }
 </script>
 <style scoped>
-.header{
+.header {
   display: flex;
   margin: 10px 0;
 }
-.h1{
+
+.h1 {
   width: 40%;
 }
-.img{
+
+.img {
   width: 100%;
 }
-.h2{
+
+.h2 {
   margin-left: 10px;
   flex: 1;
 }
-.color{
+
+.color {
   color: red;
 }
-.num{
+
+.num {
   width: 150px;
 }
-.cart{
+
+.cart {
   background: red;
   font-size: 16px;
   color: white;
   padding: 10px;
   margin-left: 5px;
 }
-.tips{
+
+.tips {
   margin-top: 20px;
   font-size: 12px;
   color: #888;
 }
-.h3{
+
+.h3 {
   margin: 10px 0;
 }
-.comment{
+
+.comment {
+  color: orangered;
   margin: 10px 0;
   font-size: 18px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
 }
-.text1{
+
+.text1 {
   margin: 10px 0;
 }
-.text2{
+
+.text2 {
   margin-left: 20px;
   color: #666;
   font-size: 14px;
 }
-.avatar{
+
+.avatar {
   width: 30px;
   height: 30px;
   border-radius: 50%;
 }
-.user{
+
+.user {
   margin-left: 5px;
 }
 </style>
