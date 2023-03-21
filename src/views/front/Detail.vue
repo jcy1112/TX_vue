@@ -15,7 +15,18 @@
             <div>
               <el-input-number :value="1" size="medium" class="num" v-model="buyNum" :min="1"></el-input-number>
               <el-button type="primary" size="medium" plain style="width:120px;" @click="addCart">加入购物车</el-button>
-              <el-button type="success" size="medium" plain style="margin-left: 10px;width:120px;" @click="payshopping()">立即购买</el-button>
+              <el-popconfirm
+                  class="ml-5"
+                  confirm-button-text='付款'
+                  cancel-button-text='我再想想'
+                  icon="el-icon-info"
+                  icon-color="red"
+                  title="您确定购买吗？"
+                  @confirm="pay()"
+              >
+                <el-button type="danger" slot="reference">直接购买</el-button>
+              </el-popconfirm>
+
               <el-button type="danger" size="medium" plain style="margin-left: 10px;width:80px;" @click="addCollection()">收藏</el-button>
             </div>
 
@@ -59,7 +70,29 @@ export default {
     this.request.get('/item/comment/' + this.goodsId).then(res => this.comments = res.data)  //评论
   },
   methods: {
-    addCart() {  //加入购物车
+    //支付
+    pay(){
+      //先下单
+      this.request.post("/orders/buy", {
+        id: this.goodsId,
+        nums: this.buyNum,
+        name: this.goods.name,
+        price: this.goods.price,
+        img: this.goods.img
+      }).then(res => {
+        if (res.code === '200') {
+          //再支付
+          const url = `http://localhost:9090/alipay/pay?subject=${this.goods.name}&traceNo=${res.data.orderno}&totalAmount=${res.data.total}`;
+          window.open(url);
+          this.$message.success("如果您已支付，请刷新页面！")
+          this.load()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    //加入购物车
+    addCart() {
       this.request.post('/cart', { goodsId: this.goodsId, num: this.buyNum, userid:this.user.id }).then(res => {
         if (res.code === '200') {
           this.$message.success('加入购物车成功')

@@ -16,7 +16,8 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column prop="address" label="收货地址"></el-table-column>
-<!--      <el-table-column prop="paymentno" label="付款编号"></el-table-column>-->
+      <el-table-column prop="paymentTime" label="付款时间"></el-table-column>
+      <el-table-column prop="alipayNo" label="付款编号"></el-table-column>
       <el-table-column label="详情">
         <template v-slot="scope">
           <el-button size="mini" @click="detail(scope.row.id)">查看详情</el-button>
@@ -39,6 +40,8 @@
           >
             <el-button type="danger" slot="reference">取消</el-button>
           </el-popconfirm>
+
+
         </template>
       </el-table-column>
     </el-table>
@@ -118,9 +121,11 @@ export default {
   methods: {
     //支付
     pay(row){
-        //打开一个url，       可以打开支付宝支付界面
-        const url = `http://localhost:9090/alipay/pay?subject=${row.id}&traceNo=${row.orderno}&totalAmount=${row.total}`;
-        window.open(url);
+      //打开一个url，       可以打开支付宝支付界面
+      const url = `http://localhost:9090/alipay/pay?subject=${row.id}&traceNo=${row.orderno}&totalAmount=${row.total}`;
+      window.open(url);
+      this.$message.success("如果您已支付，请刷新页面！")
+      this.load()
     },
 
     //评价相关
