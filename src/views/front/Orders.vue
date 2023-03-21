@@ -16,7 +16,7 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column prop="address" label="收货地址"></el-table-column>
-<!--      <el-table-column prop="payno" label="付款编号"></el-table-column>-->
+<!--      <el-table-column prop="paymentno" label="付款编号"></el-table-column>-->
       <el-table-column label="详情">
         <template v-slot="scope">
           <el-button size="mini" @click="detail(scope.row.id)">查看详情</el-button>
@@ -25,7 +25,7 @@
 
       <el-table-column label="操作" width="180" align="center">
         <template v-slot="scope">
-          <el-button type="success" @click="changeStatus(scope.row, 2)" v-if="scope.row.status === 1">付款</el-button>
+          <el-button type="success" @click="pay(scope.row)" v-if="scope.row.status === 1">付款</el-button>
           <el-button type="warning" @click="changeStatus(scope.row, 4)" v-if="scope.row.status === 3">收货</el-button>
           <el-popconfirm
               v-if="scope.row.status === 1"
@@ -101,6 +101,7 @@ export default {
       tableData: [],
       orderItems: [],
       total: 0,
+      orderno: '',
       pageNum: 1,
       pageSize: 10,
       name: "",
@@ -117,10 +118,9 @@ export default {
   methods: {
     //支付
     pay(row){
-      this.request.get().then(res => {
-        //得到一个url，可以打开支付宝支付界面
-        window.open(res.data);
-      })
+        //打开一个url，可以打开支付宝支付界面
+        const url = `http://localhost:9090/alipay/pay?subject=${row.id}&traceNo=${row.orderno}&totalAmount=${row.total}`;
+        window.open(url);
     },
 
     //评价相关

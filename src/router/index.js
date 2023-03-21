@@ -122,6 +122,14 @@ const router = new VueRouter({
     routes
 })
 
+// 重置路由
+export const resetRouter = () => {
+    router.matcher = new VueRouter({
+        mode: 'history',
+        routes
+    })
+}
+
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
