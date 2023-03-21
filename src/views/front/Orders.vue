@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-table :data="tableData" stripe size="medium">
+    <el-table :data="tableData" stripe size="medium" @filter-change="filterChange">
       <el-table-column prop="id" label="ID" width="80" sortable></el-table-column>
       <el-table-column prop="orderno" label="订单编号" width="200"></el-table-column>
       <el-table-column prop="total" label="总金额"></el-table-column>
-      <el-table-column prop="status" label="状态">
+      <el-table-column prop="status" label="状态" column-key="status" :filter-multiple="false" :filters="stateList">
         <template v-slot="scope">
           <el-tag type="info" v-if="scope.row.status === 0">已取消</el-tag>
           <el-tag type="warning" v-if="scope.row.status === 1">待支付</el-tag>
@@ -110,12 +110,27 @@ export default {
       dialogFormVisible1: false,
       multipleSelection: [],
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
+      status:'',
+      stateList:[
+        { text: '已取消', value: 0 },
+        { text: '待支付', value: 1 },
+        { text: '待发货', value: 2 },
+        { text: '待收货', value: 3 },
+        { text: '待评价', value: 4 },
+        { text: '已完成', value: 5 },
+      ]
     }
   },
   mounted() {
     this.load()
   },
   methods: {
+    //状态栏发生变化
+    filterChange(filters) {
+      // console.log(filters.status[0])
+      this.status=filters.status[0];
+      this.load();
+    },
     //支付
     pay(row){
         //打开一个url，       可以打开支付宝支付界面
@@ -162,6 +177,7 @@ export default {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           name: this.name,
+          status:this.status,
         }
       }).then(res => {
         this.tableData = res.data.records
