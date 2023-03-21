@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-table :data="tableData" stripe size="medium" @filter-change="filterChange">
+    <el-table :data="tableData" stripe size="medium">
       <el-table-column prop="id" label="ID" width="80" sortable></el-table-column>
       <el-table-column prop="orderno" label="订单编号" width="200"></el-table-column>
       <el-table-column prop="total" label="总金额"></el-table-column>
-      <el-table-column prop="status" label="状态" column-key="status" :filter-multiple="false" :filters="stateList">
+      <el-table-column prop="status" label="状态">
         <template v-slot="scope">
           <el-tag type="info" v-if="scope.row.status === 0">已取消</el-tag>
           <el-tag type="warning" v-if="scope.row.status === 1">待支付</el-tag>
@@ -16,8 +16,7 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间"></el-table-column>
       <el-table-column prop="address" label="收货地址"></el-table-column>
-      <el-table-column prop="paymentTime" label="付款时间"></el-table-column>
-      <el-table-column prop="alipayNo" label="付款编号"></el-table-column>
+      <!--      <el-table-column prop="paymentno" label="付款编号"></el-table-column>-->
       <el-table-column label="详情">
         <template v-slot="scope">
           <el-button size="mini" @click="detail(scope.row.id)">查看详情</el-button>
@@ -40,8 +39,6 @@
           >
             <el-button type="danger" slot="reference">取消</el-button>
           </el-popconfirm>
-
-
         </template>
       </el-table-column>
     </el-table>
@@ -113,34 +110,17 @@ export default {
       dialogFormVisible1: false,
       multipleSelection: [],
       user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
-      status:'',
-      stateList:[
-        { text: '已取消', value: 0 },
-        { text: '待支付', value: 1 },
-        { text: '待发货', value: 2 },
-        { text: '待收货', value: 3 },
-        { text: '待评价', value: 4 },
-        { text: '已完成', value: 5 },
-      ]
     }
   },
   mounted() {
     this.load()
   },
   methods: {
-    //状态栏发生变化
-    filterChange(filters) {
-      // console.log(filters.status[0])
-      this.status=filters.status[0];
-      this.load();
-    },
     //支付
     pay(row){
       //打开一个url，       可以打开支付宝支付界面
       const url = `http://localhost:9090/alipay/pay?subject=${row.id}&traceNo=${row.orderno}&totalAmount=${row.total}`;
       window.open(url);
-      this.$message.success("如果您已支付，请刷新页面！")
-      this.load()
     },
 
     //评价相关
@@ -182,7 +162,7 @@ export default {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           name: this.name,
-          status:this.status,
+          status: 3,
         }
       }).then(res => {
         this.tableData = res.data.records
